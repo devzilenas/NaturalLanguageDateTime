@@ -15,7 +15,15 @@ namespace NaturalLanguageDateTime.Tests
         }
 
         [TestMethod]
-        public void TestToday() //=Tomorrow
+        public void TestYesterday() //=Yesterday
+        {
+            String yesterday = DateTime.Now.Date.AddDays(-1).ToString();
+            DTime dt = NLDateTime.Evaluate("yesterday").AsDTime();
+            Assert.AreEqual(yesterday, dt.DateTime.Date.ToString());
+        }
+
+        [TestMethod]
+        public void TestToday() //=Today
         {
             String today = DateTime.Now.Date.ToString();
             DTime dt = NLDateTime.Evaluate("today").AsDTime();
