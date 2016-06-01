@@ -70,12 +70,5 @@ namespace NaturalLanguageDateTime.Tests
             Assert.AreEqual(day1BeforeToday, dt.DateTime.Date.ToString());
         }
 
-        [TestMethod]
-        public void TestYesterday()
-        {
-            String yesterday = DateTime.Now.AddDays(-1).Date.ToString();
-            NLDateTime nldt = NLDateTime.ParseString("yesterday");
-            Assert.AreEqual(yesterday, nldt.Date.ToString());
-        }
     }
 }
