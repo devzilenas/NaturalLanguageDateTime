@@ -47,7 +47,15 @@ namespace NaturalLanguageDateTime.NLDT
             Stack<IPart> pq = new Stack<IPart>(reversed);
             if (pq.Count == 1)
             {
-                return pq.Peek() as IDTime;
+                if (pq.Peek() is IEvaluatable)
+                { 
+                    var e = pq.Peek() as IEvaluatable;
+                    return e.Evaluate() as IDTime;
+                }
+                else
+                {
+                    return pq.Peek() as IDTime;
+                }
             }
             else if (pq.Count > 1)
             {
@@ -59,16 +67,31 @@ namespace NaturalLanguageDateTime.NLDT
                     if (op1.Takes(op2))
                     {
                         result = op1.Take(op2);
+                        pq.Push(result);
                     }
                     else if (op2.Takes(op1))
                     {
                         result = op2.Take(op1);
+                        pq.Push(result);
+                    }
+                    else if (op1 is IEvaluatable)
+                    { 
+                        var temp = op1 as IEvaluatable;
+                        result = temp.Evaluate(); 
+                        pq.Push(op2);
+                        pq.Push(result);
+                    }
+                    else if (op2 is IEvaluatable)
+                    {
+                        var temp = op2 as IEvaluatable;
+                        result = temp.Evaluate();
+                        pq.Push(result);
+                        pq.Push(op1);
                     }
                     else
                     {
                         throw new ArgumentException("Could not evaluate " + op1.GetType() + " and " + op2.GetType());
                     }
-                    pq.Push(result);
                 }
             }
             return pq.Peek() as DTime;
@@ -76,7 +99,7 @@ namespace NaturalLanguageDateTime.NLDT
 
         public List<IPart> AsParts(string str)
         {
-            String LastWord = "";
+            String lastWord = "";
             String LastNumber = "";
 
             List<IPart> Parts = new List<IPart>();
@@ -87,7 +110,7 @@ namespace NaturalLanguageDateTime.NLDT
             while (position < str.Length)
             {
                 at = str[position];
-                Trace.Write(String.Format("At position {0}. Character {1}", position, at));
+                Trace.Write(String.Format("At position {0}. Character {1}{n}".Replace("{n}", Environment.NewLine), position, at));
 
                 //Skip unprintable characters
                 if (!Char.IsLetterOrDigit(at))
@@ -101,7 +124,7 @@ namespace NaturalLanguageDateTime.NLDT
                 {
                     StringBuilder number = new StringBuilder();
                     number.Append(at);
-                    Trace.Write(String.Format("Digit found {0}", at));
+                    Trace.Write(String.Format("Digit found {0}{n}".Replace("{n}", Environment.NewLine), at));
                     position++;
                     int pos = position;
                     while (pos < str.Length && Char.IsDigit(str[pos]))
@@ -110,7 +133,7 @@ namespace NaturalLanguageDateTime.NLDT
                         //Take next digit
                         at = c;
                         number.Append(at);
-                        Trace.Write(String.Format("Digit found {0}", at));
+                        Trace.Write(String.Format("Digit found {0}{n}".Replace("{n}", Environment.NewLine), at));
                         pos++;
                         position++;
                     }
@@ -124,7 +147,7 @@ namespace NaturalLanguageDateTime.NLDT
                 {
                     StringBuilder word = new StringBuilder();
                     word.Append(at);
-                    Trace.Write(String.Format("Letter found {0}", at));
+                    Trace.Write(String.Format("Letter found {0}{n}".Replace("{n}", Environment.NewLine), at));
                     position++;
                     int pos = position;
                     while (pos < str.Length && Char.IsLetter(str[pos]))
@@ -133,37 +156,51 @@ namespace NaturalLanguageDateTime.NLDT
                         //Take next letter
                         at = c;
                         word.Append(at);
-                        Trace.Write(String.Format("Letter found {0}", at));
+                        Trace.Write(String.Format("Letter found {0}{n}".Replace("{n}", Environment.NewLine), at));
                         pos++;
                         position++;
                     }
 
-                    LastWord = word.ToString();
+                    lastWord = word.ToString();
                     //Now test what got.
-                    if (IsA.CardinalNumber(LastWord))
+                    if (IsA.CardinalNumber(lastWord))
                     {
-                        Parts.Add(CardinalNumber.From(LastWord));
-                        Trace.Write(String.Format("Adding CardinalNumber {0} {n}".Replace("{n}", Environment.NewLine), LastWord));
+                        Parts.Add(CardinalNumber.From(lastWord));
+                        Trace.Write(String.Format("Adding CardinalNumber {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
                     }
-                    else if (IsA.Preposition(LastWord))
+                    else if (IsA.Preposition(lastWord))
                     {
-                        Parts.Add(Preposition.From(LastWord));
-                        Trace.Write(String.Format("Adding Preposition {0} {n}".Replace("{n}", Environment.NewLine), LastWord));
+                        Parts.Add(Preposition.From(lastWord));
+                        Trace.Write(String.Format("Adding Preposition {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
                     }
-                    else if (IsA.Noun(LastWord))
+                    else if (IsA.Noun(lastWord))
                     {
-                        Trace.Write(String.Format("Adding Noun {0} {n}".Replace("{n}", Environment.NewLine), LastWord));
-                        Parts.Add(Noun.From(LastWord));
+                        Trace.Write(String.Format("Adding Noun {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
+                        Parts.Add(Noun.From(lastWord));
                     }
-                    else if (IsA.Pronoun(LastWord))
+                    else if (IsA.Pronoun(lastWord))
                     {
-                        Trace.Write(String.Format("Adding Pronoun {0} {n}".Replace("{n}", Environment.NewLine), LastWord));
-                        Parts.Add(Pronoun.From(LastWord));
+                        Trace.Write(String.Format("Adding Pronoun {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
+                        Parts.Add(Pronoun.From(lastWord));
                     }
-                    else if (IsA.OrdinalNumber(LastWord))
+                    else if (IsA.OrdinalNumber(lastWord))
                     {
-                        Trace.Write(String.Format("Adding OrdinalNumber {0} {n}".Replace("{n}", Environment.NewLine), LastWord));
-                        Parts.Add(OrdinalNumber.From(LastWord));
+                        Trace.Write(String.Format("Adding OrdinalNumber {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
+                        Parts.Add(OrdinalNumber.From(lastWord));
+                    }
+                    else if (IsA.Adjective(lastWord))
+                    {
+                        Trace.Write(String.Format("Adding Adjective {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
+                        Parts.Add(Adjective.From(lastWord)); 
+                    }
+                    else if (IsA.Article(lastWord))
+                    {
+                        Trace.Write(String.Format("Adding Article {0} {n}".Replace("{n}", Environment.NewLine), lastWord));
+                        Parts.Add(Article.From(lastWord)); 
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Unrecognized: {n}".Replace("{n}", Environment.NewLine) + lastWord);
                     }
                 }
             }
@@ -172,32 +209,7 @@ namespace NaturalLanguageDateTime.NLDT
 
         public NLDateTime Parse(string str)
         {
-
             Parts = AsParts(str);
-
-            foreach (string word in str.Split('.'))
-            {
-                switch (word.ToLower())
-                {
-                    case "yesterday":
-                        DateTime = DateTime.Now.AddDays(-1);
-                        break;
-                    case "tomorrow":
-                        DateTime = DateTime.Now.AddDays(+1);
-                        break;
-                    case "today":
-                        DateTime = DateTime.Now;
-                        break;
-                    case "plus":
-                        throw new NotImplementedException();
-                    case "minus":
-                        throw new NotImplementedException();
-                    case "next":
-                        throw new NotImplementedException();
-                    case "last":
-                        throw new NotImplementedException();
-                }
-            }
             return this;
         }
     }

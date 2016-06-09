@@ -28,12 +28,12 @@ namespace NaturalLanguageDateTime.NLDT
 
         public bool Takes(IPart part)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(GetType() + " doesn't know if takes " + part.GetType());
         }
 
         public IPart Take(IPart part)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(GetType() + " doesn't take " + part.GetType());
         }
     }
 }

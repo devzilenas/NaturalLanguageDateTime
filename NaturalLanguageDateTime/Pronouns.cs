@@ -19,9 +19,9 @@ namespace NaturalLanguageDateTime.NLDT
             switch(pronoun.Value.ToLower())
             {
                 case "yesterday":
-                    return NLDateTime.Evaluate("1 day before now").AsDTime().DateTime;
+                    return NLDateTime.Evaluate("1 day before now").DateTime;
                 case "tomorrow":
-                    return NLDateTime.Evaluate("1 day after now").AsDTime().DateTime;
+                    return NLDateTime.Evaluate("1 day after now").DateTime;
                 case "today":
                 case "now":
                 case "tonight":

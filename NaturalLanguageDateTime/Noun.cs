@@ -9,19 +9,36 @@ namespace NaturalLanguageDateTime.NLDT
     {
         public string Value { get; set; }
 
+        public class NounTime : Noun
+        {
+            public NounTime()
+                : base("time")
+            { 
+            }
+
+        }
+
+        public Noun()
+        {
+
+        }
+        public Noun(string value)
+        {
+            Value = value;
+        }
         public static Noun From(string noun)
         {
             return new Noun { Value = noun };
         }
 
         public bool Takes(IPart part)
-        { 
+        {
             if (part.GetType() == typeof(CardinalNumber))
             {
                 return true;
             }
 
-            return false; 
+            return false;
         }
 
         public override bool Equals(object obj)
@@ -43,12 +60,12 @@ namespace NaturalLanguageDateTime.NLDT
             if (part.GetType() == typeof(CardinalNumber))
             {
                 CardinalNumber cn = part as CardinalNumber;
-                return new TSpan {Multiplicator =  cn.Number, TimeSpan = Nouns.AsTimeSpan(this)};
+                return new TSpan { Multiplicator = cn.Number, TimeSpan = Nouns.AsTimeSpan(this) };
             }
             else
             {
-                throw new ArgumentException("Noun doesn't take " + part.GetType()); 
-            } 
+                throw new ArgumentException("Noun doesn't take " + part.GetType());
+            }
         }
     }
 }

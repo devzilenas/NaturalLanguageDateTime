@@ -40,11 +40,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adjective.cs" />
+    <Compile Include="Adjectives.cs" />
+    <Compile Include="Adverb.cs" />
+    <Compile Include="Adverbs.cs" />
+    <Compile Include="Article.cs" />
+    <Compile Include="Articles.cs" />
     <Compile Include="CardinalNumber.cs" />
     <Compile Include="CardinalNumbers.cs" />
     <Compile Include="DTime.cs" />
+    <Compile Include="IDetector.cs" />
     <Compile Include="IDTime.cs" />
+    <Compile Include="IEvaluatable.cs" />
     <Compile Include="IPart.cs" />
+    <Compile Include="IRange.cs" />
     <Compile Include="IsA.cs" />
     <Compile Include="NLDateTime.cs" />
     <Compile Include="Noun.cs" />

@@ -29,7 +29,7 @@ namespace NaturalLanguageDateTime.NLDT
 
         public DTime AsDTime()
         {
-            return new DTime { DateTime = Pronouns.AsDateTime(this) };
+            return new DTime { DateTime = DateTime };
         }
 
         public bool Takes(IPart part)
@@ -40,6 +40,14 @@ namespace NaturalLanguageDateTime.NLDT
         public IPart Take(IPart part)
         {
             throw new NotImplementedException();
+        } 
+
+        public DateTime DateTime
+        {
+            get
+            {
+                return Pronouns.AsDateTime(this);
+            }
         }
     }
 }

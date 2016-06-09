@@ -5,11 +5,11 @@ using System.Text;
 
 namespace NaturalLanguageDateTime.NLDT
 {
-    class Prepositions
+    class Prepositions : IDetector
     {
-        public static string[] m_Prepositions = new string[] { "after", "at", "before", "from", "in", "minus", "off", "over", "past", "plus", "since" };//http://grammarpatterns.com/wp-content/uploads/2015/12/2_list-of-prepositions.jpg
+        public static string[] m_Prepositions = new string[] { "after", "at", "before", "from", "in", "minus", "off", "over" /*, "past"/* it is an adjective too*/ , "plus", "since" };//http://grammarpatterns.com/wp-content/uploads/2015/12/2_list-of-prepositions.jpg
 
-        public static bool Is(string str)
+        public static bool IsA(string str)
         { 
             return m_Prepositions.Contains(str);
         }
@@ -20,7 +20,6 @@ namespace NaturalLanguageDateTime.NLDT
             {
                 case "after":
                 case "plus":
-                case "past":
                 case "since":
                     return "+";
                 case "before":

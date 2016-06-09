@@ -8,5 +8,6 @@ namespace NaturalLanguageDateTime.NLDT
     public interface IDTime
     {
         DTime AsDTime();
+        DateTime DateTime { get; } 
     }
 }

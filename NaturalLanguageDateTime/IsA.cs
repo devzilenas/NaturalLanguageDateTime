@@ -7,9 +7,17 @@ namespace NaturalLanguageDateTime.NLDT
 {
     public class IsA
     {
+        public static bool Article(string article)
+        {
+            return Articles.IsA(article);
+        }
+        public static bool Adjective(string adjective)
+        {
+            return Adjectives.IsA(adjective);
+        }
         public static bool Preposition(string preposition)
         {
-            return Prepositions.Is(preposition);
+            return Prepositions.IsA(preposition);
         }
 
         public static bool CardinalNumber(string cardinal)
