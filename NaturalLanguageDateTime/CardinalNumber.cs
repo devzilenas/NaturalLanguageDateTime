@@ -37,7 +37,14 @@ namespace NaturalLanguageDateTime.NLDT
 
         public static CardinalNumber From(string LastNumber)
         {
-            return new CardinalNumber(int.Parse(LastNumber));
+            if (CardinalNumbers.IsNumber(LastNumber))
+            {
+                return From(int.Parse(LastNumber));
+            }
+            else
+            {
+                return From(CardinalNumbers.AsNumber(LastNumber));
+            }
         }
 
         public bool Takes(IPart part)

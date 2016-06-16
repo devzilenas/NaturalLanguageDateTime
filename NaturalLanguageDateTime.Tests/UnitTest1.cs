@@ -9,6 +9,14 @@ namespace NaturalLanguageDateTime.Tests
     public class UnitTest1
     {
         [TestMethod]
+
+        public void TestTwoMonthsAgo()
+        {
+            DateTime dt = NLDateTime.Evaluate("two months ago").DateTime;
+            Trace.Write(String.Format("Two months ago is {0}{n}".Replace("{n}", Environment.NewLine), dt));
+            Assert.IsTrue(dt.Date < DateTime.Now);
+        }
+        [TestMethod]
         public void TestPast()
         {
             DateTime dt = NLDateTime.Evaluate("past").DateTime; 

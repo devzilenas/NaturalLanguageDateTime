@@ -33,10 +33,17 @@ namespace NaturalLanguageDateTime.NLDT
                 return Take(part as Pronoun);
             throw new ArgumentException(String.Format("TSpan doesn't take {0}", part.GetType()));
         }
-        
+
         public IPart Take(Pronoun pronoun)
         {
-            return new DTime { DateTime = Pronouns.AsDateTime(pronoun).AddTicks(Multiplicator * TimeSpan.Ticks) };
+            if (pronoun.Takes(this))//delegate to pronoun. Pronoun "... ago".
+            {
+                return pronoun.Take(this);
+            }
+            else
+            {
+                return new DTime { DateTime = Pronouns.AsDateTime(pronoun).AddTicks(Multiplicator * TimeSpan.Ticks) };
+            }
         }
 
         public IPart Take(Preposition preposition)

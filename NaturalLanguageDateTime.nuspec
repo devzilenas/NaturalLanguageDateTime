@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/spookiecookie/NaturalLanguageDateTime/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/spookiecookie/NaturalLanguageDateTime</projectUrl>
+    <iconUrl>https://avatars0.githubusercontent.com/u/5195215?v=3&s=460</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>natural language date datetime evaluate text</tags>
+  </metadata>
+</package>
