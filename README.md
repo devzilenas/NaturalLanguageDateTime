@@ -18,7 +18,7 @@ DateTime dt5 = NLDateTime.Evaluate("day after tomorrow").DateTime;
 DateTime dt6 = NLDateTime.Evaluate("1 week after tomorrow").DateTime;
 DateTime dt7 = NLDateTime.Evaluate("some day after tomorrow").DateTime;
 DateTime dt8 = NLDateTime.Evaluate("the day after tomorrow").DateTime;
-DateTime dt9 = NLDateTime.Evaluate("two months ago");
+DateTime dt9 = NLDateTime.Evaluate("two months ago").DateTime;
 
 DateTime datetime = DTime.DateTime;
 
